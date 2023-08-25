@@ -31,12 +31,12 @@ defmodule Cuid do
   ## Server callbacks
 
   def init(:ok) do
-    {:ok, %{:fingerprint => get_fingerprint, :count => 0}}
+    {:ok, %{:fingerprint => get_fingerprint(), :count => 0}}
   end
 
   def handle_call(:generate, _, %{:fingerprint => fingerprint, :count => count} = state) do
     cuid = Enum.join([
-      "c", timestamp, format_counter(count), fingerprint, random_block, random_block
+      "c", timestamp(), format_counter(count), fingerprint, random_block(), random_block()
     ]) |> String.downcase
 
     {:reply, cuid, %{state | :count => count + 1}}
