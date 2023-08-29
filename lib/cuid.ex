@@ -58,7 +58,7 @@ defmodule Cuid do
   defp timestamp do
     {mega, uni, micro} = :os.timestamp
     rem((mega * 1_000_000 + uni) * 1_000_000 + micro, @discrete_values * @discrete_values)
-    |> Integer.to_string @base
+    |> Integer.to_string(@base)
   end
 
   defp random_block do
@@ -70,9 +70,9 @@ defmodule Cuid do
   @operator @base * @base
 
   defp get_fingerprint do
-    pid = rem(String.to_integer(System.get_pid), @operator) * @operator
+    pid = rem(String.to_integer(System.pid), @operator) * @operator
 
-    hostname = to_char_list :net_adm.localhost
+    hostname = to_charlist :net_adm.localhost
     hostid = rem(Enum.sum(hostname) + Enum.count(hostname) + @base, @operator)
 
     pid + hostid
